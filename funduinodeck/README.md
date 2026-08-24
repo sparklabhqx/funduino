@@ -31,7 +31,7 @@ Jede App besitzt eine HOME-Schaltfläche, die zum Startmenü zurückführt.
 funduinodeck/
 ├── gamingconsole/   # Video 9: Dino Run und Pong
 ├── flightscanner/   # Video 10: Live-Flugzeugradar
-└── 3d-files/        # Flache und tiefe Gehäusevariante
+└── 3d-files/        # Aktuelle Gehäuseversion
 ```
 
 `gamingconsole` und `flightscanner` sind eigenständige PlatformIO-Projekte. Beide enthalten absichtlich dieselbe vollständige Firmware mit vier Apps, da in beiden Videos dieselbe Funduino-Deck-Software auf demselben ESP32-Display verwendet wird.
@@ -57,4 +57,4 @@ Für eine automatische Verbindung `include/secrets.example.h` nach `include/secr
 
 ## Gehäuse
 
-Im Ordner [`3d-files/`](3d-files/) befinden sich die 94 × 61 mm großen Gehäuseexporte für das Board mit integriertem Display.
+Im Ordner [`3d-files/`](3d-files/) befindet sich die aktuelle, 94 × 61 × 13 mm große Gehäuseversion für das Board mit integriertem Display.
