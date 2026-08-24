@@ -1,10 +1,10 @@
-# Funduino Deck enclosure
+# Funduino-Deck-Gehäuse
 
-Two STL exports for the ESP32-2432S028R V3 integrated touchscreen board:
+Zwei STL-Exporte für das ESP32-2432S028R-V3-Board mit integriertem Touchscreen:
 
-| File | Bounding size | Notes |
+| Datei | Außenmaße | Beschreibung |
 |---|---:|---|
-| `FunduinoDeck_Case_13mm.stl` | 94 x 61 x 13 mm | Shallow/final enclosure revision used for the compact Deck presentation |
-| `FunduinoDeck_Case_19mm.stl` | 94 x 61 x 19 mm | Deeper alternate revision for extra rear clearance |
+| `FunduinoDeck_Case_13mm.stl` | 94 × 61 × 13 mm | Flache/finale Gehäuseversion für den kompakten Aufbau aus dem Video |
+| `FunduinoDeck_Case_19mm.stl` | 94 × 61 × 19 mm | Tiefere Alternative mit zusätzlichem Platz auf der Rückseite |
 
-Check USB-C access and component clearance in your slicer before printing. Print orientation, tolerances and shrinkage depend on the printer and material.
+Vor dem Drucken den USB-C-Zugang und den Bauteilabstand im Slicer prüfen. Druckausrichtung, Toleranzen und Schrumpfung hängen vom Drucker und Material ab.

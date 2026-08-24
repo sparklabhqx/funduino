@@ -11,8 +11,8 @@
 #include <ArduinoJson.h>
 #include <math.h>
 
-// Wi-Fi credentials are optional. Without include/secrets.h, the Flights app
-// starts the Funduino Deck captive portal for first-time setup.
+// WLAN-Zugangsdaten sind optional. Ohne include/secrets.h startet die Flights-App
+// das Funduino-Deck-Captive-Portal für die Ersteinrichtung.
 #if __has_include("secrets.h")
 #include "secrets.h"
 #else
@@ -21,9 +21,9 @@
 #endif
 
 // -----------------------------------------------------------------------------
-// Neon Deck: a four-app touch launcher for the ESP32-2432S028R V3.
-// Display pin definitions live in platformio.ini. The touch controller is on
-// the ESP32's other SPI bus.
+// Neon Deck: ein Touch-Launcher mit vier Apps für den ESP32-2432S028R V3.
+// Die Display-Pins sind in platformio.ini definiert. Der Touch-Controller
+// verwendet den zweiten SPI-Bus des ESP32.
 // -----------------------------------------------------------------------------
 
 constexpr int TOUCH_IRQ  = 36;
@@ -39,22 +39,22 @@ constexpr int TOUCH_X_MAX = 3700;
 constexpr int TOUCH_Y_MIN = 240;
 constexpr int TOUCH_Y_MAX = 3800;
 
-// Fixed flight-scanner location (used by the Flights app and the menu header).
+// Fester Standort des Flugscanners (für die Flights-App und den Menükopf).
 constexpr float SCANNER_LAT = 52.4310f;
 constexpr float SCANNER_LON = 7.0690f;
 constexpr char SCANNER_PLACE[] = "Nordhorn DE";
 
-// Theme palette: white / graphite #343434 / charcoal #292929 / teal #35827B.
-constexpr uint16_t DECK_BG     = 0x2945;  // #292929 charcoal background
-constexpr uint16_t PANEL_BG    = 0x31A6;  // #343434 graphite panels
-constexpr uint16_t PANEL_LIGHT = 0x4228;  // #454545 raised buttons
-constexpr uint16_t GRID        = 0x4208;  // #404040 hairlines
-constexpr uint16_t TEXT_DIM    = 0x9CF3;  // #9E9E9E secondary text
-constexpr uint16_t TEAL        = 0x340F;  // #35827B primary accent
-constexpr uint16_t TEAL_LIGHT  = 0x7EB9;  // #7FD4CB mint highlight
-constexpr uint16_t TEAL_DARK   = 0x1ACA;  // #1E5A54 deep teal fill
-constexpr uint16_t SILVER      = 0xC638;  // #C6C6C6 soft-white accent
-constexpr uint16_t SLATE       = 0x4A49;  // #4A4A4A mid grey
+// Farbpalette: Weiß / Graphit #343434 / Anthrazit #292929 / Türkis #35827B.
+constexpr uint16_t DECK_BG     = 0x2945;  // #292929 anthrazitfarbener Hintergrund
+constexpr uint16_t PANEL_BG    = 0x31A6;  // #343434 graphitfarbene Flächen
+constexpr uint16_t PANEL_LIGHT = 0x4228;  // #454545 hervorgehobene Schaltflächen
+constexpr uint16_t GRID        = 0x4208;  // #404040 feine Linien
+constexpr uint16_t TEXT_DIM    = 0x9CF3;  // #9E9E9E Sekundärtext
+constexpr uint16_t TEAL        = 0x340F;  // #35827B Hauptakzent
+constexpr uint16_t TEAL_LIGHT  = 0x7EB9;  // #7FD4CB mintfarbene Hervorhebung
+constexpr uint16_t TEAL_DARK   = 0x1ACA;  // #1E5A54 dunkel-türkise Füllung
+constexpr uint16_t SILVER      = 0xC638;  // #C6C6C6 weichweißer Akzent
+constexpr uint16_t SLATE       = 0x4A49;  // #4A4A4A mittleres Grau
 
 TFT_eSPI tft;
 TFT_eSprite gameFrame(&tft);
@@ -76,7 +76,7 @@ bool previousTouchDown = false;
 enum AppId : uint8_t { APP_MENU, APP_PAINT, APP_PONG, APP_FLIGHTS, APP_DINO };
 AppId currentApp = APP_MENU;
 
-// Forward declarations for app transitions and networking.
+// Vorwärtsdeklarationen für App-Wechsel und Netzwerkfunktionen.
 void showMenu();
 void goHome();
 void stopFlightNetworking();
@@ -84,7 +84,7 @@ void startFlightPortal();
 void connectSavedWiFi();
 
 // -----------------------------------------------------------------------------
-// Shared display and touch helpers
+// Gemeinsame Hilfsfunktionen für Display und Touch
 // -----------------------------------------------------------------------------
 
 void drawGradientRect(int x, int y, int w, int h,
@@ -196,10 +196,10 @@ void splashScreen() {
 }
 
 // -----------------------------------------------------------------------------
-// Launcher menu
+// Startmenü
 // -----------------------------------------------------------------------------
 
-constexpr uint16_t MENU_SHADOW = 0x18E3;  // #1C1C1C drop shadow
+constexpr uint16_t MENU_SHADOW = 0x18E3;  // #1C1C1C Schlagschatten
 
 struct MenuTile {
   int x, y;
@@ -258,7 +258,7 @@ void drawDinoIcon(int x, int y) {
 void drawMenuTile(const MenuTile &t) {
   tft.fillRoundRect(t.x + 3, t.y + 4, MENU_TILE_W, MENU_TILE_H, 12, MENU_SHADOW);
   tft.fillRoundRect(t.x, t.y, MENU_TILE_W, MENU_TILE_H, 12, PANEL_BG);
-  tft.drawFastHLine(t.x + 12, t.y + 1, MENU_TILE_W - 24, PANEL_LIGHT);  // top sheen
+  tft.drawFastHLine(t.x + 12, t.y + 1, MENU_TILE_W - 24, PANEL_LIGHT);  // oberer Glanzrand
   tft.drawFastHLine(t.x + 12, t.y + MENU_TILE_H - 2, MENU_TILE_W - 24, MENU_SHADOW);
   tft.drawRoundRect(t.x, t.y, MENU_TILE_W, MENU_TILE_H, 12, t.accent);
   tft.drawRoundRect(t.x + 1, t.y + 1, MENU_TILE_W - 2, MENU_TILE_H - 2, 11,
@@ -273,12 +273,12 @@ void drawMenuTile(const MenuTile &t) {
   tft.setTextDatum(ML_DATUM);
   tft.setTextColor(TFT_WHITE, PANEL_BG);
   tft.drawString(t.title, t.x + 58, t.y + 33, 2);
-  tft.drawString(t.title, t.x + 59, t.y + 33, 2);  // double strike = bold
+  tft.drawString(t.title, t.x + 59, t.y + 33, 2);  // doppelt gezeichnet = fett
   tft.setTextColor(TEXT_DIM, PANEL_BG);
   tft.drawString(t.subtitle, t.x + 58, t.y + 53, 1);
 
   const int ax = t.x + MENU_TILE_W - 13;
-  tft.drawLine(ax - 4, cy - 5, ax, cy, t.accent);  // chevron
+  tft.drawLine(ax - 4, cy - 5, ax, cy, t.accent);  // Pfeilspitze
   tft.drawLine(ax, cy, ax - 4, cy + 5, t.accent);
 }
 
@@ -292,7 +292,7 @@ void flashMenuTile(int index) {
 void showMenu() {
   currentApp = APP_MENU;
   tft.fillScreen(DECK_BG);
-  for (int y = 48; y < 232; y += 16) {              // subtle dot texture
+  for (int y = 48; y < 232; y += 16) {              // dezente Punktstruktur
     for (int x = 10 + ((y >> 4) & 1) * 8; x < SCREEN_W; x += 16) {
       tft.drawPixel(x, y, GRID);
     }
@@ -328,13 +328,13 @@ void showMenu() {
 }
 
 // -----------------------------------------------------------------------------
-// Paint app
+// Paint-App
 // -----------------------------------------------------------------------------
 
 constexpr int PAINT_TOOLBAR_H = 44;
 constexpr int PAINT_STATUS_Y = 220;
 constexpr int PAINT_BOTTOM = 219;
-constexpr uint16_t PAINT_CANVAS = 0x2104;  // #212121, a step darker than DECK_BG
+constexpr uint16_t PAINT_CANVAS = 0x2104;  // #212121, eine Stufe dunkler als DECK_BG
 const uint16_t paintPalette[] = {
   TEAL, TEAL_LIGHT, SILVER, 0x8C51, TEAL_DARK, SLATE, TFT_WHITE
 };
@@ -504,7 +504,7 @@ void loopPaint() {
 }
 
 // -----------------------------------------------------------------------------
-// Pong app
+// Pong-App
 // -----------------------------------------------------------------------------
 
 float pongBallX = 160;
@@ -651,7 +651,7 @@ void loopPong() {
 }
 
 // -----------------------------------------------------------------------------
-// Dino Run app
+// Dino-Run-App
 // -----------------------------------------------------------------------------
 
 struct DinoObstacle {
@@ -717,7 +717,7 @@ void renderDino() {
            static_cast<unsigned long>(dinoBest));
   gameFrame.drawString(score, 314, 16, 1);
 
-  // Moving clouds and desert details.
+  // Bewegte Wolken und Wüstendetails.
   const int cloudShift = static_cast<int>(dinoScoreFloat * 2) % 360;
   for (int i = 0; i < 3; ++i) {
     int cx = (70 + i * 145 - cloudShift + 720) % 430 - 30;
@@ -838,7 +838,7 @@ void loopDino() {
 }
 
 // -----------------------------------------------------------------------------
-// Live flight scanner (ADS-B data from adsb.lol)
+// Live-Flugscanner (ADS-B-Daten von adsb.lol)
 // -----------------------------------------------------------------------------
 
 WebServer portalServer(80);
@@ -1020,12 +1020,12 @@ void beginWiFiConnection(const String &ssid, const String &password) {
 
 void connectSavedWiFi() {
   preferences.begin("neondeck", true);
-  // isKey() first: getString() on a missing key logs an NVS error.
+  // Zuerst isKey(): getString() protokolliert bei einem fehlenden Schlüssel einen NVS-Fehler.
   String ssid = preferences.isKey("ssid") ? preferences.getString("ssid", "") : "";
   String password = preferences.isKey("pass") ? preferences.getString("pass", "") : "";
   preferences.end();
   if (ssid.isEmpty()) {
-    // Fall back to the compiled-in home network from secrets.h.
+    // Auf das in secrets.h hinterlegte WLAN zurückfallen.
     ssid = WIFI_SSID;
     password = WIFI_PASSWORD;
   }
@@ -1110,7 +1110,7 @@ bool fetchAircraft() {
   WiFiClientSecure secureClient;
   secureClient.setInsecure();
   secureClient.setTimeout(10000);
-  secureClient.setHandshakeTimeout(10);  // seconds; TLS can hang forever on weak RSSI
+  secureClient.setHandshakeTimeout(10);  // Sekunden; bei schwachem RSSI kann TLS sonst hängen bleiben
   HTTPClient http;
   http.setTimeout(12000);
   http.useHTTP10(true);
@@ -1293,7 +1293,7 @@ void loopFlights() {
 
   if (flightState == FLIGHT_CONNECTING) {
     if (WiFi.status() == WL_CONNECTED) {
-      flightState = FLIGHT_LOCATING;  // resolves instantly from the fixed location
+      flightState = FLIGHT_LOCATING;  // wird durch den festen Standort sofort aufgelöst
       return;
     }
     if (millis() - flightStateStarted > 16000) {
@@ -1338,7 +1338,7 @@ void loopFlights() {
 }
 
 // -----------------------------------------------------------------------------
-// App transitions and Arduino entry points
+// App-Wechsel und Arduino-Einstiegspunkte
 // -----------------------------------------------------------------------------
 
 void goHome() {
@@ -1353,7 +1353,7 @@ void goHome() {
 
 void loopMenu() {
   const uint32_t now = millis();
-  if (now - menuPulseLast >= 600) {  // "live" indicator next to the header info
+  if (now - menuPulseLast >= 600) {  // „Live“-Anzeige neben den Kopfinformationen
     menuPulseLast = now;
     menuPulseOn = !menuPulseOn;
     tft.fillCircle(312, 19, 3, menuPulseOn ? TEAL_LIGHT : TEAL_DARK);
@@ -1378,8 +1378,8 @@ void setup() {
   digitalWrite(TOUCH_CS, HIGH);
 
   tft.init();
-  tft.invertDisplay(false);  // Required by the V3 ST7789 panel.
-  tft.setRotation(3);        // Landscape, upright with USB cable on the left.
+  tft.invertDisplay(false);  // Für das V3-ST7789-Panel erforderlich.
+  tft.setRotation(3);        // Querformat, aufrecht mit USB-Kabel auf der linken Seite.
   tft.setSwapBytes(true);
   tft.fillScreen(TFT_BLACK);
 
@@ -1392,7 +1392,7 @@ void setup() {
   touchController.setRotation(3);
 
   configurePortalRoutes();
-  preferences.begin("neondeck", false);  // create the namespace so read-only opens don't log NOT_FOUND
+  preferences.begin("neondeck", false);  // Namensraum anlegen, damit Lesezugriffe kein NOT_FOUND protokollieren
   preferences.end();
   WiFi.mode(WIFI_OFF);
   splashScreen();
@@ -1402,8 +1402,8 @@ void setup() {
 }
 
 void loop() {
-  // Serial shortcuts are useful for camera/bench testing without touching the
-  // display: 1=Paint, 2=Pong, 3=Flights, 4=Dino, h=Home.
+  // Serielle Kurzbefehle ermöglichen Kamera- und Prüfstandtests ohne Berührung
+  // des Displays: 1=Paint, 2=Pong, 3=Flights, 4=Dino, h=Home.
   if (Serial.available()) {
     const char command = static_cast<char>(Serial.read());
     if ((command == 'h' || command == 'H') && currentApp != APP_MENU) goHome();

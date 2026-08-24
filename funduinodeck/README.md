@@ -1,60 +1,60 @@
 # Funduino Deck
 
-Touchscreen app launcher for the Funduino ESP32 2.8-inch Smart Display V3. This is the firmware and enclosure shown in the July Funduino Gaming Console and Flight Scanner videos.
+Touchscreen-App-Launcher für das Funduino ESP32 2,8-Zoll Smart Display V3. Dies sind die Firmware und das Gehäuse aus den Funduino-Videos zur Gaming-Konsole und zum Flugscanner im Juli.
 
 ## Hardware
 
-- Funduino ESP32 2.8-inch Smart Display V3
-- Board family: ESP32-2432S028R V3 ("Cheap Yellow Display")
-- ESP32-D0WD-V3, 4 MB flash
-- Integrated 240 x 320 ST7789 TFT
-- Integrated XPT2046 resistive touchscreen
-- USB-C with CH340 USB-to-serial bridge
-- Display orientation in this project: 320 x 240 landscape
+- Funduino ESP32 2,8-Zoll Smart Display V3
+- Board-Familie: ESP32-2432S028R V3 („Cheap Yellow Display“)
+- ESP32-D0WD-V3 mit 4 MB Flash-Speicher
+- Integriertes ST7789-TFT mit 240 × 320 Pixeln
+- Integrierter resistiver XPT2046-Touchscreen
+- USB-C mit CH340-USB-Seriell-Wandler
+- Displayausrichtung in diesem Projekt: 320 × 240 im Querformat
 
-Product page: [Funduino ESP32 2.8-inch Smart Display V3](https://funduinoshop.com/elektronische-module/wireless-iot/bluetooth/esp32-2-8-zoll-smart-display-v3-wifi-bluetooth-usb-c-st7789-arduino-lvgl?number=F23107806)
+Produktseite: [Funduino ESP32 2,8-Zoll Smart Display V3](https://funduinoshop.com/elektronische-module/wireless-iot/bluetooth/esp32-2-8-zoll-smart-display-v3-wifi-bluetooth-usb-c-st7789-arduino-lvgl?number=F23107806)
 
 ## Apps
 
-The same all-in-one firmware powers both video projects:
+Dieselbe All-in-One-Firmware steuert beide Videoprojekte:
 
-- **Paint** - seven colors, three brush sizes and Clear
-- **Pong** - touchscreen paddle against the ESP32
-- **Flights** - live ADS-B radar centered on Nordhorn, Germany
-- **Dino Run** - touchscreen endless runner
+- **Paint** – sieben Farben, drei Pinselgrößen und eine Löschfunktion
+- **Pong** – Touchscreen-Steuerung gegen den ESP32
+- **Flights** – Live-ADS-B-Radar für Nordhorn
+- **Dino Run** – Endlos-Laufspiel mit Touchscreen-Steuerung
 
-Every app has a HOME button that returns to the launcher.
+Jede App besitzt eine HOME-Schaltfläche, die zum Startmenü zurückführt.
 
-## Repository layout
+## Repository-Struktur
 
 ```text
 funduinodeck/
-├── gamingconsole/   # Video 9: Dino Run and Pong
-├── flightscanner/   # Video 10: live aircraft radar
-└── 3d-files/        # Shallow and deep enclosure variants
+├── gamingconsole/   # Video 9: Dino Run und Pong
+├── flightscanner/   # Video 10: Live-Flugzeugradar
+└── 3d-files/        # Flache und tiefe Gehäusevariante
 ```
 
-`gamingconsole` and `flightscanner` are self-contained PlatformIO downloads. They intentionally contain the same complete four-app firmware because both videos use the same Funduino Deck software and ESP32 display.
+`gamingconsole` und `flightscanner` sind eigenständige PlatformIO-Projekte. Beide enthalten absichtlich dieselbe vollständige Firmware mit vier Apps, da in beiden Videos dieselbe Funduino-Deck-Software auf demselben ESP32-Display verwendet wird.
 
-## Quick start
+## Schnellstart
 
-Choose either firmware folder and run:
+Einen der beiden Firmware-Ordner auswählen und folgende Befehle ausführen:
 
 ```sh
-cd gamingconsole       # or: cd flightscanner
+cd gamingconsole       # alternativ: cd flightscanner
 pio run
 pio run -t upload
 pio device monitor -b 115200
 ```
 
-PlatformIO normally detects the connected serial port automatically. If more than one board is connected, append `--upload-port /dev/cu...` on macOS/Linux or the appropriate `COM` port on Windows.
+PlatformIO erkennt den angeschlossenen seriellen Port normalerweise automatisch. Falls mehrere Boards verbunden sind, unter macOS/Linux `--upload-port /dev/cu...` oder unter Windows den passenden `COM`-Port ergänzen.
 
-## Wi-Fi
+## WLAN
 
-Wi-Fi credentials are optional. Without a local `include/secrets.h`, opening Flights starts the **NeonDeck-Setup** captive portal. Join that network and open `http://192.168.4.1`.
+WLAN-Zugangsdaten sind optional. Ohne eine lokale Datei `include/secrets.h` startet die Flights-App das Captive Portal **NeonDeck-Setup**. Mit diesem WLAN verbinden und `http://192.168.4.1` öffnen.
 
-For automatic connection, copy `include/secrets.example.h` to `include/secrets.h` and enter local credentials. The real secrets file is ignored by Git.
+Für eine automatische Verbindung `include/secrets.example.h` nach `include/secrets.h` kopieren und die eigenen Zugangsdaten eintragen. Die echte Zugangsdaten-Datei wird von Git ignoriert.
 
-## Enclosure
+## Gehäuse
 
-See [`3d-files/`](3d-files/) for the 94 x 61 mm case exports used with the integrated display board.
+Im Ordner [`3d-files/`](3d-files/) befinden sich die 94 × 61 mm großen Gehäuseexporte für das Board mit integriertem Display.

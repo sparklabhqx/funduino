@@ -1,17 +1,17 @@
-# Funduino Deck Gaming Console
+# Funduino Deck Gaming-Konsole
 
-Firmware for the touchscreen gaming console shown in Funduino July video 9. It targets the ESP32-2432S028R V3 with its integrated ST7789 display and XPT2046 touchscreen.
+Firmware für die Touchscreen-Gaming-Konsole aus dem Funduino-Juli-Video 9. Sie ist für den ESP32-2432S028R V3 mit integriertem ST7789-Display und XPT2046-Touchscreen ausgelegt.
 
-This is the complete Funduino Deck image. From the launcher, select:
+Dies ist die vollständige Funduino-Deck-Firmware. Im Startmenü stehen unter anderem diese Spiele zur Auswahl:
 
-- **Dino Run** - tap to start, tap to jump, avoid the obstacles and tap after game over to restart.
-- **Pong** - drag the left paddle vertically, tap to serve and play against the ESP32. First to seven wins.
+- **Dino Run** – zum Starten und Springen tippen, Hindernissen ausweichen und nach „Game Over“ zum Neustart erneut tippen.
+- **Pong** – das linke Paddle vertikal ziehen, zum Aufschlag tippen und gegen den ESP32 spielen. Wer zuerst sieben Punkte erreicht, gewinnt.
 
-The same image also includes Paint and the live Flight Scanner, matching the device shown at the end of the video.
+Die Firmware enthält außerdem Paint und den Live-Flugscanner. Damit entspricht sie dem Gerät, das am Ende des Videos gezeigt wird.
 
-## Build and upload
+## Kompilieren und Hochladen
 
-Install [PlatformIO](https://platformio.org/), connect the display by USB-C and run:
+[PlatformIO](https://platformio.org/) installieren, das Display per USB-C verbinden und folgende Befehle ausführen:
 
 ```sh
 pio run
@@ -19,24 +19,24 @@ pio run -t upload
 pio device monitor -b 115200
 ```
 
-Serial bench shortcuts:
+Serielle Prüfstand-Kurzbefehle:
 
-- `1` - Paint
-- `2` - Pong
-- `3` - Flights
-- `4` - Dino Run
-- `h` - Home
+- `1` – Paint
+- `2` – Pong
+- `3` – Flights
+- `4` – Dino Run
+- `h` – Home
 
-## Optional Wi-Fi
+## Optionales WLAN
 
-Games work without Wi-Fi. To let the included Flights app connect automatically:
+Die Spiele funktionieren ohne WLAN. Damit sich die enthaltene Flights-App automatisch verbindet:
 
 ```sh
 cp include/secrets.example.h include/secrets.h
 ```
 
-Then edit `include/secrets.h`. If it is omitted, Flights offers captive-portal setup instead. Never commit the completed secrets file.
+Anschließend `include/secrets.h` bearbeiten. Fehlt die Datei, bietet Flights stattdessen die Einrichtung über ein Captive Portal an. Die ausgefüllte Zugangsdaten-Datei niemals committen.
 
-## Hardware details
+## Hardwaredetails
 
-The display and touch controllers use separate SPI buses. Their complete pin configuration is in `platformio.ini` and at the top of `src/main.cpp`. The firmware requires landscape rotation 3 and `tft.invertDisplay(false)` for this V3 ST7789 panel.
+Display und Touch-Controller verwenden getrennte SPI-Busse. Die vollständige Pin-Konfiguration steht in `platformio.ini` und am Anfang von `src/main.cpp`. Für dieses V3-ST7789-Panel benötigt die Firmware die Querformat-Rotation 3 und `tft.invertDisplay(false)`.
