@@ -1,0 +1,6 @@
+.pio/
+.vscode/
+__pycache__/
+*.pyc
+src/secrets.h
+.DS_Store
